@@ -102,3 +102,53 @@ Documentação simplificada dos passos do projeto
         app.get('/', (req, res) => {
             res.render('list', { name: Kevin })
         })
+
+    Podemos passar variáveis para serem renderizadas utilizando o nunjucks
+
+    const users = ["Kevin", "Kevinn", "Kevinnn"];
+
+    app.get('/', (req, res) => {
+        res.render('list', {users})
+    })
+
+    list.njk
+    <h1>Listagem de usuários</h1>
+    <ul>
+        {% for user in users %} -> Operações de repetições ou condicional
+        <li>{{user}}</li>       -> Passando cada user para um <li>
+        {% endfor %}            -> Finalizando o for
+    </ul>
+
+    -> passar próximas telas
+    <a href="/new">Cadastrar usuário</a> -> Passa para a página new
+
+    new.njk
+    <h1>Novo usuário</h1>
+
+    index.js
+
+    app.get('/new', (req, res) => {
+        res.render('new')
+    })
+
+#Enviando formulários
+    new.njk
+    - method -> método http
+    - action -> rota que o formulário irá chamar
+        <form action="/create" method="POST">
+            <input name="user">
+            <button type="submit">Salvar</button>
+        </form>
+        <a href="/">Listagem de usuários</a>
+
+
+
+    index.js
+        - Informamos ao nosso express saber lidar com info de forms html
+        app.use(express.urlencoded({extended: false}))
+        - obter informações no corpo da requisição
+        app.post('/create', (req,res) => {
+            console.log(req.body);
+            users.push(req.body.user); -> Adicionamos o novo usuário ao array de users
+            return res.redirect("/"); --> Redireciona o usuário para a trota passada como parâmetro
+        })

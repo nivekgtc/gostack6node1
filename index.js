@@ -9,12 +9,23 @@ nunjucks.configure('views', {
   watch: true
 });
 
+app.use(express.urlencoded({extended: false}));
 app.set('view engine', 'njk');
 
+const users = ["Kevin", "Kevinn", "Kevinnn"];
 
 app.get("/", (req, res) => {
-  res.render('list', { name: "Kevin" })
+  res.render('list', { users })
 });
+
+app.get("/new", (req, res) => {
+  res.render('new')
+});
+
+app.post('/create', (req, res) => {
+  users.push(req.body.user)
+  res.redirect('/')
+})
 
 
 app.listen(3333);
