@@ -1,3 +1,5 @@
+Aulas do módulo 1 NodeJs do Bootcamp da Rocketseat
+
 Documentação simplificada dos passos do projeto
 
 #_Utilizando Express_
@@ -36,3 +38,38 @@ Documentação simplificada dos passos do projeto
     })
 
     app.listen(3333); -> Para iniciarmos o servidor na porta passada como parâmetro
+
+#Middleware
+    Intercepta nossas requisições e devolve ou não uma resposta
+
+    Do modo abaixo nós interceptamos e interrompemos a requisição do usuário
+    - Intercepta e bloqueia o fluxo do express
+        const logMiddleware = (req, res) => {
+            console.log(` HOST ${req.headers.host} | URL ${req.url} | METHOD ${req.method}`)
+        }
+    Do modo abaixo nós interceptamos mas não interrompemos a requisição do usuário
+    - Intercepta e executa os próximos (next()) middlewares
+        const logMiddleware = (req, res, next) => {
+            console.log(`HOST ${req.headers.host} | URL ${req.url} METHOD ${req.method}`)
+            return next()   <- Para não bloquearmos a requisição do usuário
+        }
+
+    _Podemos passar este middleware apenas na rota escolhida_
+    
+        app.get('/', logMiddleware, (req, res) => {
+            return res.send('Returned')
+        })
+
+    _Podemos utilizar os middlewares para passar informações para a requisição e utilizarmos depois_
+    - Deste modo todos os middlewares executados após este terão acesso à variável appName de req
+        const logMiddleware = (req, res, next) => {
+            console.log(`HOST ${req.headers.host} | URL ${req.url} | METHOD ${req.method}`);
+
+            req.appName = "GoNode";
+
+            return next();
+        }
+
+    _Podemos também usar este middleware em todas as rotas usando a função use()_
+    
+    app.use(logMiddleware)
