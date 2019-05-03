@@ -8,7 +8,14 @@ app.get("/", (req, res) => {
 
 // Parâmetros na url -> /paramval
 app.get("/nome/:name", (req, res) => {
-  res.send(`Bem-vindo ${req.params.name}`);
+  res.send(`Welcome ${req.params.name}`);
 });
+
+// Retornando json
+app.get('/:nome', (req, res) => {
+  res.json({
+    message: `Welcome ${req.params.nome}`
+  })
+})
 
 app.listen(3333);
