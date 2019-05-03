@@ -73,3 +73,32 @@ Documentação simplificada dos passos do projeto
     _Podemos também usar este middleware em todas as rotas usando a função use()_
     
     app.use(logMiddleware)
+
+#Nunjucks
+    _Template engine para renderizar html com conteúdo em JavaScript_
+
+    const nunjucks = require('nunjucks')
+
+    -> Configurando
+    @param views É o nome da pasta onde está localizado nossas views
+    @param Um objeto
+    nunjucks('views', {
+        autoescape: true, // Para manipular o nome dos arquivos
+        express: app, // referencia a variável do express
+        watch: true, // para não precisarmos reiniciar o servidor ao realizar configurações nos arquivos
+    })
+
+    // O método set() serve para settarmos configurações globais
+    @ O parâmetro view engine diz qual é a extensão que vamos usar nos nossos arquivos nunjucks
+    @ O segundo parametro é a extensão
+    app.set('view engine', 'njk);
+
+    Inside njk
+    Podemos utilizar HTML comum dentro dos nossos arquivos .njk
+    <h1>{{variavelRecebida}}</h1>
+
+    Como renderizar nossas views njk?
+    - utilizamos o res.render( <arquivo para renderizar>, { nossasVariaveis })
+        app.get('/', (req, res) => {
+            res.render('list', { name: Kevin })
+        })
